@@ -1,49 +1,51 @@
-// SHOW MENU
+// Selecting the sidebar and buttons
+const sidebar = document.querySelector(".sidebar");
+const sidebarOpenBtn = document.querySelector("#sidebar-open");
+const sidebarCloseBtn = document.querySelector("#sidebar-close");
+const sidebarLockBtn = document.querySelector("#lock-icon");
 
-const showMenu = (toggleId, navId) => {
-      const toggle = document.getElementById(toggleId),
-            nav = document.getElementById(navId)
+// Function to toggle the lock state of the sidebar
+const toggleLock = () => {
+  sidebar.classList.toggle("locked");
+  // If the sidebar is not locked
+  if (!sidebar.classList.contains("locked")) {
+    sidebar.classList.add("hoverable");
+    sidebarLockBtn.classList.replace("bx-lock-alt", "bx-lock-open-alt");
+  } else {
+    sidebar.classList.remove("hoverable");
+    sidebarLockBtn.classList.replace("bx-lock-open-alt", "bx-lock-alt");
+  }
+};
 
-      if(toggle && nav){
-            toggle.addEventListener('click', () =>{
-                  nav.classList.toggle('show')
-            });
-      }
+// Function to hide the sidebar when the mouse leaves
+const hideSidebar = () => {
+  if (sidebar.classList.contains("hoverable")) {
+    sidebar.classList.add("close");
+  }
+};
+
+// Function to show the sidebar when the mouse enter
+const showSidebar = () => {
+  if (sidebar.classList.contains("hoverable")) {
+    sidebar.classList.remove("close");
+  }
+};
+
+// Function to show and hide the sidebar
+const toggleSidebar = () => {
+  sidebar.classList.toggle("close");
+};
+
+// If the window width is less than 800px, close the sidebar and remove hoverability and lock
+if (window.innerWidth < 800) {
+  sidebar.classList.add("close");
+  sidebar.classList.remove("locked");
+  sidebar.classList.remove("hoverable");
 }
 
-showMenu('nav_toggle','nav_menu')
-
-// ACTIVE & REMOVE ACTIVE
-const navLink = document.querySelectorAll('.nav_link')
-navLink.forEach(n => n.classList.remove('active'))
-
-function linkAction(){
-      navLink.forEach(n => n.classList.remove('active'))
-      this.classList.add('active')
-
-      const navMenu = document.getElementById('nav_menu')
-      navMenu.classList.remove('show')
-}
-
-navLink.forEach(n => n.addEventListener('click', linkAction))
-
-/* ----- TYPING EFFECT ----- */
-const text = document.
-    querySelector(".sec-text");
-const textLoad = () => {
-    setTimeout(() => {
-            text.textContent = 
-            "WEB DEVELOPER";
-      }, 0);
-      setTimeout(() => {
-            text.textContent = 
-            "ANDROID DEVELOPER";
-      }, 4000);
-      setTimeout(() => {
-            text.textContent = 
-            "GAME DEVELOPER";
-      }, 8000);
-}
-textLoad();
-setInterval(textLoad, 12000);
-// END //    
+// Adding event listeners to buttons and sidebar for the corresponding actions
+sidebarLockBtn.addEventListener("click", toggleLock);
+sidebar.addEventListener("mouseleave", hideSidebar);
+sidebar.addEventListener("mouseenter", showSidebar);
+sidebarOpenBtn.addEventListener("click", toggleSidebar);
+sidebarCloseBtn.addEventListener("click", toggleSidebar);
